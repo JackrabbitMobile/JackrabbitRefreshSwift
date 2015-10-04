@@ -10,12 +10,12 @@ import Foundation
 
 
 func printlog(message:String, filePath : String = __FILE__, functionName : String = __FUNCTION__, line : Int = __LINE__){
-    let fileName = filePath.lastPathComponent
-    println("\(fileName) \(functionName) [Line \(line)]: \(message)")
+    let fileName = (filePath as NSString).lastPathComponent
+    print("\(fileName) \(functionName) [Line \(line)]: \(message)")
 }
 
 func printlog(filePath : String = __FILE__, functionName : String = __FUNCTION__, line : Int = __LINE__){
-    let fileName = filePath.lastPathComponent
-    println("\(fileName) \(functionName) [Line \(line)]")
+    let fileName = (filePath as NSString).lastPathComponent
+    print("\(fileName) \(functionName) [Line \(line)]")
 }
 
