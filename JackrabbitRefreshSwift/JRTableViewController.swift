@@ -58,7 +58,7 @@ class JRTableViewController: UITableViewController {
         self.isRefreshAnimating = false;
         
         // When activated, invoke our refresh function
-        self.refreshControl?.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(JRTableViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
     }
     
     func refresh(){
@@ -66,8 +66,8 @@ class JRTableViewController: UITableViewController {
 
         // -- DO SOMETHING AWESOME (... or just wait 3 seconds) --
         // This is where you'll make requests to an API, reload data, or process information
-        var delayInSeconds = 3.0;
-        var popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)));
+        let delayInSeconds = 3.0;
+        let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)));
         dispatch_after(popTime, dispatch_get_main_queue()) { () -> Void in
             // When done requesting/reloading/processing invoke endRefreshing, to close the control
             self.refreshControl!.endRefreshing()
@@ -81,30 +81,31 @@ class JRTableViewController: UITableViewController {
         var refreshBounds = self.refreshControl!.bounds;
         
         // Distance the table has been pulled >= 0
-        var pullDistance = max(0.0, -self.refreshControl!.frame.origin.y);
+        let pullDistance = -scrollView.contentOffset.y/2
+        
 
         // Half the width of the table
-        var midX = self.tableView.frame.size.width / 2.0;
+        let midX = self.tableView.frame.size.width / 2.0;
         
         // Calculate the width and height of our graphics
-        var compassHeight = self.compass_background.bounds.size.height;
-        var compassHeightHalf = compassHeight / 2.0;
+        let compassHeight = self.compass_background.bounds.size.height;
+        let compassHeightHalf = compassHeight / 2.0;
         
-        var compassWidth = self.compass_background.bounds.size.width;
-        var compassWidthHalf = compassWidth / 2.0;
+        let compassWidth = self.compass_background.bounds.size.width;
+        let compassWidthHalf = compassWidth / 2.0;
         
-        var spinnerHeight = self.compass_spinner.bounds.size.height;
-        var spinnerHeightHalf = spinnerHeight / 2.0;
+        let spinnerHeight = self.compass_spinner.bounds.size.height;
+        let spinnerHeightHalf = spinnerHeight / 2.0;
         
-        var spinnerWidth = self.compass_spinner.bounds.size.width;
-        var spinnerWidthHalf = spinnerWidth / 2.0;
+        let spinnerWidth = self.compass_spinner.bounds.size.width;
+        let spinnerWidthHalf = spinnerWidth / 2.0;
         
         // Calculate the pull ratio, between 0.0-1.0
-        var pullRatio = min( max(pullDistance, 0.0), 100.0) / 100.0;
+        let pullRatio = min( max(pullDistance, 0.0), 100.0) / 100.0;
         
         // Set the Y coord of the graphics, based on pull distance
-        var compassY = pullDistance / 2.0 - compassHeightHalf;
-        var spinnerY = pullDistance / 2.0 - spinnerHeightHalf;
+        let compassY = pullDistance / 2.0 - compassHeightHalf;
+        let spinnerY = pullDistance / 2.0 - spinnerHeightHalf;
         
         // Calculate the X coord of the graphics, adjust based on pull ratio
         var compassX = (midX + compassWidthHalf) - (compassWidth * pullRatio);
@@ -221,9 +222,9 @@ class JRTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var CellIdentifier = "Cell";
+        let CellIdentifier = "Cell";
 
-        var cell : UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? UITableViewCell
+        var cell : UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(CellIdentifier)
         
         if (cell == nil) {
             cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: CellIdentifier)

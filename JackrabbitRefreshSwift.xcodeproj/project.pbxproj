@@ -116,6 +116,8 @@
 		395A6F401A7C85B7003431BC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0730;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Jackrabbit Mobile";
 				TargetAttributes = {
