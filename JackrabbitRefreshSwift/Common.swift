@@ -9,13 +9,13 @@
 import Foundation
 
 
-func printlog(message:String, filePath : String = __FILE__, functionName : String = __FUNCTION__, line : Int = __LINE__){
-    let fileName = filePath.lastPathComponent
-    println("\(fileName) \(functionName) [Line \(line)]: \(message)")
+func printlog(message:String, filePath : String = #file, functionName : String = #function, line : Int = #line){
+    let fileName = URL(fileURLWithPath: filePath).lastPathComponent
+    print("\(fileName) \(functionName) [Line \(line)]: \(message)")
 }
 
-func printlog(filePath : String = __FILE__, functionName : String = __FUNCTION__, line : Int = __LINE__){
-    let fileName = filePath.lastPathComponent
-    println("\(fileName) \(functionName) [Line \(line)]")
+func printlog(filePath : String = #file, functionName : String = #function, line : Int = #line){
+    let fileName = URL(fileURLWithPath: filePath).lastPathComponent
+    print("\(fileName) \(functionName) [Line \(line)]")
 }
 

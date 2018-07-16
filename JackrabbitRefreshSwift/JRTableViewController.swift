@@ -28,11 +28,11 @@ class JRTableViewController: UITableViewController {
 
         // Setup the loading view, which will hold the moving graphics
         self.refreshLoadingView = UIView(frame: self.refreshControl!.bounds)
-        self.refreshLoadingView.backgroundColor = UIColor.clearColor()
+        self.refreshLoadingView.backgroundColor = UIColor.clear
         
         // Setup the color view, which will display the rainbowed background
         self.refreshColorView = UIView(frame: self.refreshControl!.bounds)
-        self.refreshColorView.backgroundColor = UIColor.clearColor()
+        self.refreshColorView.backgroundColor = UIColor.clear
         self.refreshColorView.alpha = 0.30
         
         // Create the graphic image views
@@ -47,7 +47,7 @@ class JRTableViewController: UITableViewController {
         self.refreshLoadingView.clipsToBounds = true;
         
         // Hide the original spinner icon
-        self.refreshControl!.tintColor = UIColor.clearColor()
+        self.refreshControl!.tintColor = UIColor.clear
         
         // Add the loading and colors views to our refresh control
         self.refreshControl!.addSubview(self.refreshColorView)
@@ -58,53 +58,55 @@ class JRTableViewController: UITableViewController {
         self.isRefreshAnimating = false;
         
         // When activated, invoke our refresh function
-        self.refreshControl?.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
     }
     
-    func refresh(){
+    @objc func refresh(){
         printlog()
 
         // -- DO SOMETHING AWESOME (... or just wait 3 seconds) --
         // This is where you'll make requests to an API, reload data, or process information
-        var delayInSeconds = 3.0;
-        var popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)));
-        dispatch_after(popTime, dispatch_get_main_queue()) { () -> Void in
+        let delayInSeconds = 3.0;
+        let popTime = DispatchTime.now();
+
+        DispatchQueue.main.asyncAfter(deadline: popTime + delayInSeconds) {
             // When done requesting/reloading/processing invoke endRefreshing, to close the control
             self.refreshControl!.endRefreshing()
         }
+
         // -- FINISHED SOMETHING AWESOME, WOO! --
     }
 
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         // Get the current size of the refresh controller
         var refreshBounds = self.refreshControl!.bounds;
         
         // Distance the table has been pulled >= 0
-        var pullDistance = max(0.0, -self.refreshControl!.frame.origin.y);
+        let pullDistance = max(0.0, -self.refreshControl!.frame.origin.y);
 
         // Half the width of the table
-        var midX = self.tableView.frame.size.width / 2.0;
+        let midX = self.tableView.frame.size.width / 2.0;
         
         // Calculate the width and height of our graphics
-        var compassHeight = self.compass_background.bounds.size.height;
-        var compassHeightHalf = compassHeight / 2.0;
+        let compassHeight = self.compass_background.bounds.size.height;
+        let compassHeightHalf = compassHeight / 2.0;
         
-        var compassWidth = self.compass_background.bounds.size.width;
-        var compassWidthHalf = compassWidth / 2.0;
+        let compassWidth = self.compass_background.bounds.size.width;
+        let compassWidthHalf = compassWidth / 2.0;
         
-        var spinnerHeight = self.compass_spinner.bounds.size.height;
-        var spinnerHeightHalf = spinnerHeight / 2.0;
+        let spinnerHeight = self.compass_spinner.bounds.size.height;
+        let spinnerHeightHalf = spinnerHeight / 2.0;
         
-        var spinnerWidth = self.compass_spinner.bounds.size.width;
-        var spinnerWidthHalf = spinnerWidth / 2.0;
+        let spinnerWidth = self.compass_spinner.bounds.size.width;
+        let spinnerWidthHalf = spinnerWidth / 2.0;
         
         // Calculate the pull ratio, between 0.0-1.0
-        var pullRatio = min( max(pullDistance, 0.0), 100.0) / 100.0;
+        let pullRatio = min( max(pullDistance, 0.0), 100.0) / 100.0;
         
         // Set the Y coord of the graphics, based on pull distance
-        var compassY = pullDistance / 2.0 - compassHeightHalf;
-        var spinnerY = pullDistance / 2.0 - spinnerHeightHalf;
+        let compassY = pullDistance / 2.0 - compassHeightHalf;
+        let spinnerY = pullDistance / 2.0 - spinnerHeightHalf;
         
         // Calculate the X coord of the graphics, adjust based on pull ratio
         var compassX = (midX + compassWidthHalf) - (compassWidth * pullRatio);
@@ -116,7 +118,7 @@ class JRTableViewController: UITableViewController {
         }
         
         // If the graphics have overlapped or we are refreshing, keep them together
-        if (self.isRefreshIconsOverlap || self.refreshControl!.refreshing) {
+        if (self.isRefreshIconsOverlap || self.refreshControl!.isRefreshing) {
             compassX = midX - compassWidthHalf;
             spinnerX = midX - spinnerWidthHalf;
         }
@@ -140,11 +142,11 @@ class JRTableViewController: UITableViewController {
         self.refreshLoadingView.frame = refreshBounds;
         
         // If we're refreshing and the animation is not playing, then play the animation
-        if (self.refreshControl!.refreshing && !self.isRefreshAnimating) {
+        if (self.refreshControl!.isRefreshing && !self.isRefreshAnimating) {
             self.animateRefreshView()
         }
         
-        printlog("pullDistance \(pullDistance), pullRatio: \(pullRatio), midX: \(midX), refreshing: \(self.refreshControl!.refreshing)")
+        print("pullDistance \(pullDistance), pullRatio: \(pullRatio), midX: \(midX), refreshing: \(self.refreshControl!.isRefreshing)")
     }
     
     func animateRefreshView() {
@@ -152,7 +154,7 @@ class JRTableViewController: UITableViewController {
         
         // Background color to loop through for our color view
         
-        var colorArray = [UIColor.redColor(), UIColor.blueColor(), UIColor.purpleColor(), UIColor.cyanColor(), UIColor.orangeColor(), UIColor.magentaColor()]
+        var colorArray = [UIColor.red, UIColor.blue, UIColor.purple, UIColor.cyan, UIColor.orange, UIColor.magenta]
         
         // In Swift, static variables must be members of a struct or class
         struct ColorIndex {
@@ -162,21 +164,20 @@ class JRTableViewController: UITableViewController {
         // Flag that we are animating
         self.isRefreshAnimating = true;
         
-        UIView.animateWithDuration(
-            Double(0.3),
+        UIView.animate(
+            withDuration: Double(0.3),
             delay: Double(0.0),
-            options: UIViewAnimationOptions.CurveLinear,
+            options: UIViewAnimationOptions.curveLinear,
             animations: {
                 // Rotate the spinner by M_PI_2 = PI/2 = 90 degrees
-                self.compass_spinner.transform = CGAffineTransformRotate(self.compass_spinner.transform, CGFloat(M_PI_2))
-                
+                self.compass_spinner.transform = self.compass_spinner.transform.rotated(by: CGFloat(Double.pi))
                 // Change the background color
                 self.refreshColorView!.backgroundColor = colorArray[ColorIndex.colorIndex]
                 ColorIndex.colorIndex = (ColorIndex.colorIndex + 1) % colorArray.count
             },
             completion: { finished in
                 // If still refreshing, keep spinning, else reset
-                if (self.refreshControl!.refreshing) {
+                if (self.refreshControl!.isRefreshing) {
                     self.animateRefreshView()
                 }else {
                     self.resetAnimation()
@@ -187,16 +188,14 @@ class JRTableViewController: UITableViewController {
     
     func resetAnimation() {
         printlog()
-        
         // Reset our flags and }background color
         self.isRefreshAnimating = false;
         self.isRefreshIconsOverlap = false;
-        self.refreshColorView.backgroundColor = UIColor.clearColor()
+        self.refreshColorView.backgroundColor = UIColor.clear
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Set up the refresh control
         self.setupRefreshControl()
     }
@@ -208,37 +207,34 @@ class JRTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 20
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var CellIdentifier = "Cell";
-
-        var cell : UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? UITableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let CellIdentifier = "Cell";
+        
+        var cell : UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: CellIdentifier)
         
         if (cell == nil) {
-            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: CellIdentifier)
+            cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: CellIdentifier)
         }
-
+        
         // Configure the cell...
         cell!.textLabel!.text = "Row \(indexPath.row)"
-
+        
         return cell!
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         printlog()
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
     }
+    
 
     /*
     // Override to support conditional editing of the table view.

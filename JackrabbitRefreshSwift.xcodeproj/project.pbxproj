@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		395A6F4E1A7C85B7003431BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395A6F4D1A7C85B7003431BC /* AppDelegate.swift */; };
-		395A6F501A7C85B7003431BC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395A6F4F1A7C85B7003431BC /* ViewController.swift */; };
 		395A6F531A7C85B7003431BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 395A6F511A7C85B7003431BC /* Main.storyboard */; };
 		395A6F551A7C85B7003431BC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 395A6F541A7C85B7003431BC /* Images.xcassets */; };
 		395A6F581A7C85B7003431BC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 395A6F561A7C85B7003431BC /* LaunchScreen.xib */; };
@@ -24,7 +23,6 @@
 		395A6F481A7C85B7003431BC /* JackrabbitRefreshSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JackrabbitRefreshSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		395A6F4C1A7C85B7003431BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		395A6F4D1A7C85B7003431BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		395A6F4F1A7C85B7003431BC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		395A6F521A7C85B7003431BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		395A6F541A7C85B7003431BC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		395A6F571A7C85B7003431BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -68,7 +66,6 @@
 			children = (
 				395A6F6F1A7C86EA003431BC /* JRTableViewController.swift */,
 				395A6F4D1A7C85B7003431BC /* AppDelegate.swift */,
-				395A6F4F1A7C85B7003431BC /* ViewController.swift */,
 				395A6F511A7C85B7003431BC /* Main.storyboard */,
 				396B1C2A1A7C983D001B7E7B /* Common.swift */,
 				395A6F541A7C85B7003431BC /* Images.xcassets */,
@@ -165,7 +162,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				396B1C2B1A7C983D001B7E7B /* Common.swift in Sources */,
-				395A6F501A7C85B7003431BC /* ViewController.swift in Sources */,
 				395A6F701A7C86EA003431BC /* JRTableViewController.swift in Sources */,
 				395A6F4E1A7C85B7003431BC /* AppDelegate.swift in Sources */,
 			);
@@ -277,6 +273,7 @@
 				INFOPLIST_FILE = JackrabbitRefreshSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -287,6 +284,7 @@
 				INFOPLIST_FILE = JackrabbitRefreshSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
